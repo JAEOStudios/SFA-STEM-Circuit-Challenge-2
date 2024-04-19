@@ -14,9 +14,10 @@ public class TitleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //sends the user to the level select
         if(Input.GetKeyDown(KeyCode.Space))
 		{
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("LevelSelect");
 		}
     }
 }

@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 652428705017364869}
   - component: {fileID: 4638237361739309597}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -203,7 +203,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   m_Color: {r: 0.13333334, g: 0.1254902, b: 0.20392159, a: 0.5019608}
   m_FlipX: 0

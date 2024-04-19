@@ -5,20 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour
 {
-    [SerializeField] private int nextLevel = 1;
-	// Start is called before the first frame update
-
-	public void Initialize(int nextLevel)
-	{
-		this.nextLevel = nextLevel;
-	}
-
-
+	//checking if the player is overlapping the portal, and starting the next level if so
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if(collision.gameObject.CompareTag("Bot"))
 		{
-			SceneManager.LoadScene(nextLevel);
+			GameObject.Find("Grid").GetComponent<WorldGenerator>().startNextLevel();
 		}
 	}
 }

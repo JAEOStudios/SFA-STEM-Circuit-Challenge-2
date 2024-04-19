@@ -2,24 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 using System;
 using System.IO;
 
 public class WorldGenerator : MonoBehaviour
 {
-    [SerializeField] string fileName = "testLayout.txt";
-    FileInfo file;
-    [SerializeField] private int nextLevel;
+    //info about the files and file loading
+    private string fileName = "testLayout.txt";
+    LevelManager levelManager;
+    private FileInfo file;
 
+    //size parameters populated from file
     private int sizeX = 0;
     private int sizeY = 0;
-    [SerializeField] RuleTile tile;
-    [SerializeField] Tilemap tileMap;
-    List<char[]> world = new List<char[]>();
-    [SerializeField] RuleTile circuitTile;
-    [SerializeField] Tilemap circuitMap;
-    [SerializeField] RuleTile activeTile;
 
+    //serialized objects of tiles to populate
+    [SerializeField] private RuleTile tile;
+    [SerializeField] private Tilemap tileMap;
+    private List<char[]> world = new List<char[]>();
+    [SerializeField] private RuleTile circuitTile;
+    [SerializeField] private Tilemap circuitMap;
+    [SerializeField] private RuleTile activeTile;
+
+    //struct for battery location
     public struct BatteryLocation
 	{
         public int x;
@@ -30,29 +36,36 @@ public class WorldGenerator : MonoBehaviour
             this.y = y;
 		}
 	}
-    List<BatteryLocation> batteryLocations = new List<BatteryLocation>();
+    //lists of batteries, slots, and doors
+    private List<BatteryLocation> batteryLocations = new List<BatteryLocation>();
 
-    List<Slot> slots = new List<Slot>();
+    private List<Slot> slots = new List<Slot>();
 
-    List<Door> doors = new List<Door>();
+    private List<Door> doors = new List<Door>();
 
-    List<char> jump = new List<char>();
+    //jumpable characters for the wires
+    private List<char> jump = new List<char>();
     
+    //gameojbect prefabs for instantiation
+    [SerializeField] private GameObject robot;
+    [SerializeField] private GameObject[] chip;
+    [SerializeField] private GameObject[] slot;
+    [SerializeField] private GameObject battery;
+    [SerializeField] private GameObject door;
+    [SerializeField] private GameObject breakableBlock;
+    [SerializeField] private GameObject exitPortal;
+    [SerializeField] private GameObject hazard;
 
-    [SerializeField] GameObject robot;
-    [SerializeField] GameObject[] chip;
-    [SerializeField] GameObject[] slot;
-    [SerializeField] GameObject battery;
-    [SerializeField] GameObject door;
-    [SerializeField] GameObject breakableBlock;
-    [SerializeField] GameObject exitPortal;
-
-    CharacterMovement characterMovement;
-    ChipMovement chipMovement;
+    //references to often used character and chip movement classes
+    private CharacterMovement characterMovement;
+    private ChipMovement chipMovement;
     // Start is called before the first frame update
     void Start()
     {
-        file = new FileInfo("Assets\\Layouts\\" + fileName);
+        //pulling level manager
+        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        fileName = levelManager.GetCurrentLevel();
+        file = new FileInfo(Application.dataPath+ " /Levels/" + fileName);
 
         //adding the jumpable characters
         jump.Add('L');
@@ -70,83 +83,103 @@ public class WorldGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //validating circuit completion repeatedly
         CircuitCheckSetup();
     }
 
     void GenerateMain()
 	{
+        //initializing contents of file for usage
         ReadFile();
+
+        
         for(int i = 0; i < sizeY; i++)
 		{
             for(int j = 0; j < sizeX; j++)
 			{
-                //world 
+                //building a wall
                 if (world[i][j] == '1')
 				{
                     tileMap.SetTile(new Vector3Int(j, -i, 0), tile);
                 }
+                //building a robot
                 else if(world[i][j] == 'R')
 				{
                     characterMovement = GameObject.Instantiate(robot).GetComponent<CharacterMovement>();
                     characterMovement.InitializeCharacter(j, -i);
                     Debug.Log("robot found at" + j + ", " + i);
 				}
+                //chip 1
                 else if(world[i][j] == '(')
 				{
                     chipMovement = GameObject.Instantiate(chip[0]).GetComponent<ChipMovement>();
                     chipMovement.InitializeChip(j, -i, 1);
                     Debug.Log("chip found at" + j + ", " + i);
 				}
+                //chip 2
                 else if (world[i][j] == '[')
                 {
                     chipMovement = GameObject.Instantiate(chip[1]).GetComponent<ChipMovement>();
                     chipMovement.InitializeChip(j, -i, 2);
                     Debug.Log("chip found at" + j + ", " + i);
                 }
+                //chip 3
                 else if (world[i][j] == '{')
                 {
                     chipMovement = GameObject.Instantiate(chip[2]).GetComponent<ChipMovement>();
                     chipMovement.InitializeChip(j, -i, 3);
                     Debug.Log("chip found at" + j + ", " + i);
                 }
+                //chip 4
                 else if (world[i][j] == '<')
                 {
                     chipMovement = GameObject.Instantiate(chip[3]).GetComponent<ChipMovement>();
                     chipMovement.InitializeChip(j, -i, 4);
                     Debug.Log("chip found at" + j + ", " + i);
                 }
+                //wires
                 else if(world[i][j] == 'L')
 				{
                     tileMap.SetTile(new Vector3Int(j, -i, 0), tile);
                     circuitMap.SetTile(new Vector3Int(j, -i, 0), circuitTile);
 
                 }
+                //battery
                 else if(world[i][j] == 'B')
 				{
                     tileMap.SetTile(new Vector3Int(j, -i, 0), tile);
                     GameObject b = GameObject.Instantiate(battery);
                     b.transform.position = new Vector2(j + 0.5f, -i + 0.5f);
-
+                    //adding battery location to list of structs
                     batteryLocations.Add(new BatteryLocation(j, i));
                 }
+                //door
                 else if (world[i][j] == 'D')
                 {
                     GameObject d = GameObject.Instantiate(door);
                     d.transform.position = new Vector2(j + 0.5f, -i + 0.5f);
                     d.GetComponent<Door>().initializeDoor(j, i);
+                    //adding door to list of doors
                     doors.Add(d.GetComponent<Door>());
                 }
+                //breakable walls
                 else if (world[i][j] == '2')
                 {
                     GameObject b = GameObject.Instantiate(breakableBlock);
                     b.transform.position = new Vector2(j + 0.5f, -i + 0.5f);
                 }
+                //portal for level
                 else if (world[i][j] == 'E')
                 {
                     GameObject e = GameObject.Instantiate(exitPortal);
                     e.transform.position = new Vector2(j + 0.5f, -i + 0.5f);
-                    e.GetComponent<Portal>().Initialize(nextLevel);
                 }
+                else if (world[i][j] == 'X')
+                {
+                    GameObject x = GameObject.Instantiate(hazard);
+                    x.transform.position = new Vector2(j + 0.5f, -i + 0.5f);
+                }
+                //chip slot 1
                 else if (world[i][j] == ')')
 				{
                     GameObject s = GameObject.Instantiate(slot[0]);
@@ -154,6 +187,7 @@ public class WorldGenerator : MonoBehaviour
                     s.GetComponent<Slot>().initializeSlot(j, i, 1);
                     slots.Add(s.GetComponent<Slot>());
                 }
+                //chip slot 2
                 else if (world[i][j] == ']')
                 {
                     GameObject s = GameObject.Instantiate(slot[1]);
@@ -161,6 +195,7 @@ public class WorldGenerator : MonoBehaviour
                     s.GetComponent<Slot>().initializeSlot(j, i, 2);
                     slots.Add(s.GetComponent<Slot>());
                 }
+                //chip slot 3
                 else if (world[i][j] == '}')
                 {
                     GameObject s = GameObject.Instantiate(slot[2]);
@@ -168,6 +203,7 @@ public class WorldGenerator : MonoBehaviour
                     s.GetComponent<Slot>().initializeSlot(j, i, 3);
                     slots.Add(s.GetComponent<Slot>());
                 }
+                //chip slot 4
                 else if (world[i][j] == '>')
                 {
                     GameObject s = GameObject.Instantiate(slot[3]);
@@ -184,6 +220,7 @@ public class WorldGenerator : MonoBehaviour
 
     private void RegenDeadCircuit()
 	{
+        //setting all circuit tiles to off to ensure that when they get unmatched they turn off
         for (int i = 0; i < sizeY; i++)
         {
             for (int j = 0; j < sizeX; j++)
@@ -193,6 +230,7 @@ public class WorldGenerator : MonoBehaviour
                 {
                     circuitMap.SetTile(new Vector3Int(j, -i, 0), circuitTile);
                 }
+                //ensuring chip slots don't have circuits visible
                 else if (world[i][j] == ')' || world[i][j] == ']' || world[i][j] == '}' || world[i][j] == '>')
 				{
                     circuitMap.SetTile(new Vector3Int(j, -i, 0), null);
@@ -202,22 +240,61 @@ public class WorldGenerator : MonoBehaviour
         }
     }
 
-    void ReadFile()
+    private void ReadFile()
 	{
+        //opening the file
         StreamReader streamReader = file.OpenText();
+
+        //reading the x and y coords
         sizeX = int.Parse(streamReader.ReadLine());
         sizeY = int.Parse(streamReader.ReadLine());
+
+        //reading in the file line by line into the array
         for(int i = 0; i < sizeY; i++)
 		{
             string line = streamReader.ReadLine();
             world.Add(line.ToCharArray());
 		}
+        //reading in the next level from the file 
+        if(!streamReader.EndOfStream)
+		{
+            levelManager.UpdateNextLevel(streamReader.ReadLine());
+        }
+		else
+		{
+            //if a level isn't provided, change to ls for level select indicator to be read in startNextLevel()
+            levelManager.UpdateNextLevel("ls");
+		}
 
+    }
 
+    //reloading the level with no changes
+    public void restartLevel()
+	{
+        SceneManager.LoadScene("Level");
+	}
+
+    public void startNextLevel()
+	{
+        //getting the next level
+        levelManager.UpdateCurrentLevel(levelManager.GetNextLevel());
+
+        //if it doesn't exist, delete the level manager and load the level select
+        if(levelManager.GetCurrentLevel() == "ls" || levelManager.GetNextLevel() == "ls")
+		{
+            SceneManager.LoadScene("Victory");
+		}
+		else
+		{
+            //if it does, reload current level to start new level
+            SceneManager.LoadScene("Level");
+        }
+        
     }
 
     private void CircuitCheckSetup()
 	{
+        //ensuring the circuit is reset 
         RegenDeadCircuit();
         for(int i = 0; i < batteryLocations.Count; i++)
 		{
@@ -239,11 +316,13 @@ public class WorldGenerator : MonoBehaviour
 
             Door d2 = CircuitCheck(currY, currX, prevDirection);
 
+            //if both ends of the cirucuits are complete, open the door
             if ( d1==d2 && d1 != null && d2 != null )
 			{
                 d1.Open();
 
             }
+            //else, close the door
             else if (d1 != null)
 			{
                 d1.Close();
@@ -261,20 +340,24 @@ public class WorldGenerator : MonoBehaviour
 	{
         while (world[currY][currX] != 'D')
         {
-            //setting the tiles to be visibly active
+            //setting the tiles to be visibly active if they aren't chip slots
             if(world[currY][currX] != ')' && world[currY][currX] != ']' && world[currY][currX] != '}' && world[currY][currX] != '>')
 			{
                 circuitMap.SetTile(new Vector3Int(currX, -currY, 0), activeTile);
             }
             Debug.Log(currX + ", " + currY + ", " + world[currY][currX]);
+            //checking the down direction if it wasn't used last, if the screen isn't at the bottom, and if the tile is a jumpable tile
             if (prevDirection != 1 && currY < sizeY - 1 && jump.Contains(world[currY + 1][currX]))
             {
+                //if it's a chip slot...
                 char c = world[currY + 1][currX];
                 if (c == ')' || c==']' || c=='}' || c=='>')
 				{
                     Debug.Log("HERE, " + c);
+                    //check the chip slot
                     if (ChipSlotCheck(currY + 1, currX, c))
 					{
+                        //setting direction and updating position
                         prevDirection = 3;
                         currY++;
                     }
@@ -286,10 +369,12 @@ public class WorldGenerator : MonoBehaviour
 				}
 				else
 				{
+                    //setting direction and updating position
                     prevDirection = 3;
                     currY++;
                 }
             }
+            //checking the right direction if it wasn't used last, if the screen isn't at the right, and if the tile is a jumpable tile
             else if (prevDirection != 2 && currX < sizeX - 1 && jump.Contains(world[currY][currX + 1]))
             {
                 char c = world[currY][currX+1];
@@ -313,6 +398,7 @@ public class WorldGenerator : MonoBehaviour
                     currX++;
                 }
             }
+            //checking the up direction if it wasn't used last, if the screen isn't at the top, and if the tile is a jumpable tile
             else if (prevDirection != 3 && currY > 0 && jump.Contains(world[currY - 1][currX]))
             {
                 char c = world[currY - 1][currX];
@@ -336,6 +422,7 @@ public class WorldGenerator : MonoBehaviour
                     currY--;
                 }
             }
+            //checking the left direction if it wasn't used last, if the screen isn't at the left, and if the tile is a jumpable tile
             else if (prevDirection != 4 && currX > 0 && jump.Contains(world[currY][currX - 1]))
             {
                 char c = world[currY][currX-1];
@@ -372,10 +459,11 @@ public class WorldGenerator : MonoBehaviour
 
     private bool ChipSlotCheck(int y, int x, char c)
 	{
+        //for each chip slot, check if the corresponding chip is overlapping it
         Debug.Log("We are in the chip slot check");
         foreach(Slot slot in slots)
 		{
-            
+            //calling the chip slot's match method
             if(slot.MatchCoords(x, y))
 			{
                 Debug.Log("Chip is found!");
@@ -385,6 +473,7 @@ public class WorldGenerator : MonoBehaviour
         return false;
 	}
 
+    //checking if the door matches the current coords to open
     private Door DoorCheck(int y, int x)
 	{
         foreach(Door door in doors)

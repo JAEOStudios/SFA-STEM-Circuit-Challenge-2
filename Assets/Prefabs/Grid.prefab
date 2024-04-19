@@ -60,7 +60,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86a30ca66003c5e4eb35d3819fe6c392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileName: testLayout.txt
   tile: {fileID: 11400000, guid: f2371923e1726d84fb2568a6792d8f2c, type: 2}
   tileMap: {fileID: 8948378057244750637}
   circuitTile: {fileID: 11400000, guid: 67569d50f52eea444b467a7f20d29d15, type: 2}
@@ -80,6 +79,8 @@ MonoBehaviour:
   battery: {fileID: 500437924673898962, guid: 6a46cd05851870146ada004653ee8b21, type: 3}
   door: {fileID: 5802276506729251746, guid: bfd549143a5035046a5ef5e9474cdac3, type: 3}
   breakableBlock: {fileID: 1803502367140082850, guid: c258e3f8ba7604f498775c312266b175, type: 3}
+  exitPortal: {fileID: 6266223518842179706, guid: 4668a022c8dc69449a926036c55e98e3, type: 3}
+  hazard: {fileID: 1402951466882964188, guid: 4ac70948c5208ba40b1018430d18e6f9, type: 3}
 --- !u!1 &8948378057048780494
 GameObject:
   m_ObjectHideFlags: 0

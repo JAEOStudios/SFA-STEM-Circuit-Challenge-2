@@ -10,6 +10,8 @@ TagManager:
   - Circuits
   - Breakable
   - Laser
+  - Heart
+  - Hazard
   layers:
   - Default
   - TransparentFX
