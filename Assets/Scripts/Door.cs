@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+	//audio source for when door is opened
+	[SerializeField] private AudioSource openNoise;
+
 	// Start is called before the first frame update
 	private int x = 0;
 	private int y = 0;
@@ -32,6 +35,9 @@ public class Door : MonoBehaviour
 	{
 		if(isOpen == false)
 		{
+			//playing the door open noise
+			openNoise.Play();
+
 			isOpen = true;
 			this.gameObject.tag = "Untagged";
 			this.gameObject.GetComponent<Animator>().SetBool("IsOpen", true);

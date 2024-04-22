@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
 using System;
 using System.IO;
+using TMPro;
 
 public class WorldGenerator : MonoBehaviour
 {
@@ -59,6 +60,11 @@ public class WorldGenerator : MonoBehaviour
     //references to often used character and chip movement classes
     private CharacterMovement characterMovement;
     private ChipMovement chipMovement;
+
+    //health variables
+    private int health = 3;
+    [SerializeField] private GameObject[] hearts = new GameObject[3];
+
     // Start is called before the first frame update
     void Start()
     {
@@ -68,7 +74,8 @@ public class WorldGenerator : MonoBehaviour
         file = new FileInfo(Application.dataPath+ " /Levels/" + fileName);
 
         //adding the jumpable characters
-        jump.Add('L');
+        jump.Add('W');
+        jump.Add('w');
         jump.Add('D');
         jump.Add(')');
         jump.Add(']');
@@ -77,6 +84,8 @@ public class WorldGenerator : MonoBehaviour
 
         GenerateMain();
 
+        //pulling the hearts
+        hearts = GameObject.FindGameObjectsWithTag("Heart");
 
     }
 
@@ -137,10 +146,16 @@ public class WorldGenerator : MonoBehaviour
                     chipMovement.InitializeChip(j, -i, 4);
                     Debug.Log("chip found at" + j + ", " + i);
                 }
-                //wires
-                else if(world[i][j] == 'L')
+                //wires w wall
+                else if(world[i][j] == 'W')
 				{
                     tileMap.SetTile(new Vector3Int(j, -i, 0), tile);
+                    circuitMap.SetTile(new Vector3Int(j, -i, 0), circuitTile);
+
+                }
+                //wires w/o wall
+                else if (world[i][j] == 'w')
+                {
                     circuitMap.SetTile(new Vector3Int(j, -i, 0), circuitTile);
 
                 }
@@ -226,7 +241,7 @@ public class WorldGenerator : MonoBehaviour
             for (int j = 0; j < sizeX; j++)
             {
                 //world 
-                if (world[i][j] == 'L')
+                if (world[i][j] == 'W' || world[i][j] == 'w')
                 {
                     circuitMap.SetTile(new Vector3Int(j, -i, 0), circuitTile);
                 }
@@ -249,6 +264,11 @@ public class WorldGenerator : MonoBehaviour
         sizeX = int.Parse(streamReader.ReadLine());
         sizeY = int.Parse(streamReader.ReadLine());
 
+        SetCamera();
+
+        //assigning the level name object to have the text
+        GameObject.Find("LevelName").GetComponent<TextMeshProUGUI>().text = streamReader.ReadLine();
+
         //reading in the file line by line into the array
         for(int i = 0; i < sizeY; i++)
 		{
@@ -267,6 +287,14 @@ public class WorldGenerator : MonoBehaviour
 		}
 
     }
+
+    //changes camera size based on level size
+    private void SetCamera()
+	{
+        Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        cam.transform.position = new Vector3(sizeX / 2f, 1 - sizeY / 2f, -10f);
+        cam.orthographicSize = Mathf.Max(sizeX/3.8f, sizeY/2);
+	}
 
     //reloading the level with no changes
     public void restartLevel()
@@ -484,5 +512,16 @@ public class WorldGenerator : MonoBehaviour
 			}
 		}
         return null;
+	}
+
+    public void TakeDamage()
+	{
+        health--;
+        hearts[health].SetActive(false);
+	}
+
+    public int GetHealth()
+	{
+        return this.health;
 	}
 }

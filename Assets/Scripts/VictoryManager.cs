@@ -8,6 +8,10 @@ public class VictoryManager : MonoBehaviour
 {
     //the text on the victory screen to update with the beaten level pack
     [SerializeField] private TextMeshProUGUI text;
+
+    private float timer = 0;
+
+    [SerializeField] private AudioSource confirm;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +29,20 @@ public class VictoryManager : MonoBehaviour
         //checking if the user has pressed space
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            SceneManager.LoadScene("LevelSelect");
+            confirm.Play();
+            timer = .5f;
+        }
+
+        //if the timer is initialized
+        if (timer > 0)
+        {
+            GameObject.Find("Sliders").GetComponent<Animator>().SetTrigger("Close");
+            timer -= 1 * Time.deltaTime;
+            //if the timer is less than 0, jump to level select
+            if (timer <= 0)
+            {
+                SceneManager.LoadScene("LevelSelect");
+            }
         }
     }
 }

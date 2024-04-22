@@ -5,12 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour
 {
-	//checking if the player is overlapping the portal, and starting the next level if so
+	[SerializeField] private AudioSource sound;
+	//checking if the player is overlapping the portal, and calling the bot's portal animation if so
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if(collision.gameObject.CompareTag("Bot"))
 		{
-			GameObject.Find("Grid").GetComponent<WorldGenerator>().startNextLevel();
+			sound.Play();
+			collision.gameObject.GetComponent<CharacterMovement>().TouchPortal(this.transform.position);
 		}
 	}
 }

@@ -20,9 +20,21 @@ public class CharacterMovement : MonoBehaviour
     //reference to laser prefab
     [SerializeField] private GameObject laser;
 
-    //health variables
+    //reference to smoke prefab
+    [SerializeField] private GameObject smoke;
+    [SerializeField] private AudioSource movementSound;
+    [SerializeField] private AudioSource donk;
+
+    [SerializeField] private GameObject explosion;
+
+    //tracks animation for portal
+    private bool hasPortaled = false;
+    private float countDown = 0;
+
+    //health variable
     private int health = 3;
-    [SerializeField] private GameObject[] hearts = new GameObject[3];
+
+    private WorldGenerator worldGenerator;
     // Start is called before the first frame update
 
     void Start()
@@ -32,65 +44,116 @@ public class CharacterMovement : MonoBehaviour
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         position = new Vector2(gameObject.GetComponent<Transform>().position.x, gameObject.GetComponent<Transform>().position.y);
 
-        hearts = GameObject.FindGameObjectsWithTag("Heart");
+        //pulling world generator
+        worldGenerator = GameObject.Find("Grid").GetComponent<WorldGenerator>();
     }
 
     // Update is called once per frame
     void Update()
 	{
-        //checking inputs and if the movements are valid
-		if (Input.GetKeyDown(KeyCode.DownArrow))
+        if(!hasPortaled && countDown <= 0)
 		{
-			if (ValidMove(Vector2.down))
-			{
-				MoveCharacter(xPos, yPos - 1);
-			}
-            //updating sprites
-			spriteRenderer.sprite = directionSprites[0];
-            direction = 1;
-		}
-		else if (Input.GetKeyDown(KeyCode.RightArrow))
-		{
-			if (ValidMove(Vector2.right))
-			{
-				MoveCharacter(xPos + 1, yPos);
-			}
-			spriteRenderer.sprite = directionSprites[1];
-            direction = 2;
-		}
-		else if (Input.GetKeyDown(KeyCode.UpArrow))
-		{
-			if (ValidMove(Vector2.up))
-			{
-				MoveCharacter(xPos, yPos + 1);
-			}
-			spriteRenderer.sprite = directionSprites[2];
-            direction = 3;
-		}
+            //checking inputs and if the movements are valid
+            if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+            {
+                if (ValidMove(Vector2.down))
+                {
+                    MoveCharacter(xPos, yPos - 1);
+                }
+                //updating sprites
+                spriteRenderer.sprite = directionSprites[0];
+                direction = 1;
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+            {
+                if (ValidMove(Vector2.right))
+                {
+                    MoveCharacter(xPos + 1, yPos);
+                }
+                spriteRenderer.sprite = directionSprites[1];
+                direction = 2;
+            }
+            else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+            {
+                if (ValidMove(Vector2.up))
+                {
+                    MoveCharacter(xPos, yPos + 1);
+                }
+                spriteRenderer.sprite = directionSprites[2];
+                direction = 3;
+            }
 
-		else if (Input.GetKeyDown(KeyCode.LeftArrow))
-		{
-			if (ValidMove(Vector2.left))
-			{
-				MoveCharacter(xPos - 1, yPos);
-			}
-			spriteRenderer.sprite = directionSprites[3];
-            direction = 4;
-		}
+            else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+            {
+                if (ValidMove(Vector2.left))
+                {
+                    MoveCharacter(xPos - 1, yPos);
+                }
+                spriteRenderer.sprite = directionSprites[3];
+                direction = 4;
+            }
 
-        //creating a laser option in the right direction when space is hit
-		else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GameObject l = GameObject.Instantiate(laser, this.transform.position, Quaternion.identity);
-            l.GetComponent<LaserMove>().Initialize(direction);
+            //creating a laser option in the right direction when space is hit
+            else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                GameObject l = GameObject.Instantiate(laser, this.transform.position, Quaternion.identity);
+                l.GetComponent<LaserMove>().Initialize(direction);
+            }
+
+            //health setting while game is valid
+            health = worldGenerator.GetHealth();
+
+        }
+		else if(hasPortaled)
+		{
+            //animating the player warping into the portal
+            this.transform.localScale = new Vector3(this.transform.localScale.x - (0.5f * Time.deltaTime), this.transform.localScale.x - (0.5f * Time.deltaTime), this.transform.localScale.x - (0.5f * Time.deltaTime));
+            this.transform.eulerAngles = new Vector3(0, 0, this.transform.eulerAngles.z + 100 * Time.deltaTime);
+        }
+        
+        //things to do if the countdown is on
+        if (countDown > 0)
+		{
+            //decreasing the timer if it's been set
+            countDown -= Time.deltaTime * 1;
+            
+            if (countDown < 0.5f)
+            {
+                GameObject.Find("Sliders").GetComponent<Animator>().SetTrigger("Close");
+            }
+
+            //starting the next level if the countdown is over and the player isn't dead
+            if (countDown <= 0 && health > 0)
+            {
+                GameObject.Find("Grid").GetComponent<WorldGenerator>().startNextLevel();
+            }
+            //restarting the current one if they are dead
+            else if (countDown <= 0)
+            {
+                GameObject.Find("Grid").GetComponent<WorldGenerator>().restartLevel();
+            }
+			//else
+			//{
+            //    Debug.Log("Why am I here?");
+			//}
         }
 
-        //checking if the player is out of health
-        if(health <= 0 || Input.GetKeyDown(KeyCode.R))
-		{
-            GameObject.Find("Grid").GetComponent<WorldGenerator>().restartLevel();
-		}
+        //checking if the player is out of health or restarting
+        if ((health <= 0 || Input.GetKeyDown(KeyCode.R)) && countDown <= 0)
+        {
+            //setting the countdown and health to 0 to trigger the restart
+            countDown = 2f;
+            health = 0;
+
+            //creating the explosion and turning off the robot sprite
+            this.GetComponent<SpriteRenderer>().enabled = false;
+            GameObject.Instantiate(explosion, this.transform.position, this.transform.rotation);
+        }
+
         
+
+
+
     }
 
     
@@ -105,6 +168,8 @@ public class CharacterMovement : MonoBehaviour
             //if wall, no
             if (hit.collider.tag == "Wall" || hit.collider.tag == "Breakable")
             {
+                //playing donk
+                donk.Play();
                 return false;
             }
             //if chip, dependent on if chip can move
@@ -129,6 +194,10 @@ public class CharacterMovement : MonoBehaviour
     //updating the position of the robot's coords and transform
     private void MoveCharacter(int newX, int newY)
 	{
+        //creating the smoke prefab 
+        GameObject.Instantiate(smoke, new Vector3(xPos + 0.5f, yPos + 0.5f, 0), Quaternion.identity);
+        //playing the sound
+        movementSound.Play();
         xPos = newX;
         yPos = newY;
         gameObject.transform.position = new Vector2(xPos + 0.5f, yPos + 0.5f);
@@ -148,8 +217,19 @@ public class CharacterMovement : MonoBehaviour
 
 		if(collision.CompareTag("Hazard"))
 		{
-            health--;
-            hearts[health].SetActive(false);
+            worldGenerator.TakeDamage();
 		}
+	}
+
+    //warps the player to the portal and changes the portal tracker boolean to true
+    public void TouchPortal(Vector2 position)
+	{
+        //setting the sprite to front facing
+        spriteRenderer.sprite = directionSprites[0];
+
+        //setting variable and position
+        hasPortaled = true;
+        countDown = 2f;
+        this.transform.position = position;
 	}
 }

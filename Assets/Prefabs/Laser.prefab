@@ -146,3 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 706ac4898e1a2dc48a6220e8f19533be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spark: {fileID: 8257517089049084576, guid: 3c6d62e34d1ec9a42b39bdd291f82a9b, type: 3}
+  laserSound: {fileID: 6254266316451259009, guid: 594624517e27b464c9baa94a054915d9, type: 3}
+  doink: {fileID: 0}
