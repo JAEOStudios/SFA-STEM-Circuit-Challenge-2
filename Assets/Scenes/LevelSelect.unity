@@ -741,7 +741,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: level1-1.txt
+          m_StringArgument: level7-1.txt
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 3115139810168391999}
@@ -753,7 +753,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: level1-1.txt
+          m_StringArgument: level7-1.txt
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 3115139810168391999}
@@ -765,7 +765,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: First Level Pack
+          m_StringArgument: Hazards Level Pack
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 3115139810168391999}
@@ -793,7 +793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.38635984, b: 0.32452828, a: 1}
+  m_Color: {r: 1, g: 0.45660377, b: 0.8029252, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1046,7 +1046,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: level1-1.txt
+          m_StringArgument: level8-1.txt
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 3115139810168391999}
@@ -1058,7 +1058,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: level1-1.txt
+          m_StringArgument: level8-1.txt
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 3115139810168391999}
@@ -1070,7 +1070,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: First Level Pack
+          m_StringArgument: Hardest Level Pack
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 3115139810168391999}
@@ -1098,7 +1098,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.73849994, g: 0.44716978, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.5469213, b: 0.2980392, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1969,7 +1969,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: level1-1.txt
+          m_StringArgument: level6-1.txt
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 3115139810168391999}
@@ -1981,7 +1981,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: level1-1.txt
+          m_StringArgument: level6-1.txt
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 3115139810168391999}
@@ -1993,7 +1993,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: First Level Pack
+          m_StringArgument: Multi Robot Level Pack
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 3115139810168391999}
@@ -2021,7 +2021,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8151931, b: 0.23018867, a: 1}
+  m_Color: {r: 0.764151, g: 0.764151, b: 0.764151, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3050,7 +3050,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: level1-1.txt
+          m_StringArgument: level5-1.txt
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 3115139810168391999}
@@ -3062,7 +3062,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: level1-1.txt
+          m_StringArgument: level5-1.txt
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 3115139810168391999}
@@ -3074,7 +3074,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: First Level Pack
+          m_StringArgument: Multi Chip Level Pack
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 3115139810168391999}
@@ -3102,7 +3102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3339622, g: 1, b: 0.5384788, a: 1}
+  m_Color: {r: 0.44716978, g: 0.83945256, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

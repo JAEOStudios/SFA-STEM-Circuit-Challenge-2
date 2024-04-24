@@ -10,8 +10,12 @@ public class TitleManager : MonoBehaviour
     private string destinationLevel = "LevelSelect";
 
     [SerializeField] private AudioSource confirm;
-    // Update is called once per frame
-    void Update()
+
+	private void Start()
+	{
+	}
+	// Update is called once per frame
+	void Update()
     {
         //sends the user to the level select
         if(Input.GetKeyDown(KeyCode.Space) && timer <= 0)
@@ -32,6 +36,10 @@ public class TitleManager : MonoBehaviour
                 SceneManager.LoadScene(destinationLevel);
             }
 		}
+        if(GameObject.Find("LevelManager") != null)
+		{
+            GameObject.Destroy(GameObject.Find("LevelManager"));
+        }
     }
 
     public void Credits()
