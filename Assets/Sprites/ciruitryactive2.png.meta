@@ -363,7 +363,7 @@ TextureImporter:
       name: ciruitryactive2_11
       rect:
         serializedVersion: 2
-        x: 48
+        x: 0
         y: 0
         width: 16
         height: 16
@@ -376,6 +376,27 @@ TextureImporter:
       bones: []
       spriteID: a77861a8ccc68df4e8e997dc9abb7d88
       internalID: 431670241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ciruitryactive2_12
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d19ecb94cc6e8042b21243724cd2b20
+      internalID: -1631627255
       vertices: []
       indices: 
       edges: []
@@ -393,6 +414,7 @@ TextureImporter:
     nameFileIdTable:
       ciruitryactive2_7: -1095920934
       ciruitryactive2_11: 431670241
+      ciruitryactive2_12: -1631627255
       ciruitryactive2_10: -1954158956
       ciruitryactive2_4: 1374388097
       ciruitryactive2_9: -1468530220

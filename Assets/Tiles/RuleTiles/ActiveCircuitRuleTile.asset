@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
   m_Name: ActiveCircuitRuleTile
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 757382052, guid: 3925cd04508c5cb47a3d66efb8c4cc1c, type: 3}
+  m_DefaultSprite: {fileID: 431670241, guid: 3925cd04508c5cb47a3d66efb8c4cc1c, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1
   m_TilingRules:
@@ -171,7 +171,7 @@ MonoBehaviour:
     m_RuleTransform: 0
   - m_Id: 9
     m_Sprites:
-    - {fileID: 431670241, guid: 3925cd04508c5cb47a3d66efb8c4cc1c, type: 3}
+    - {fileID: -1631627255, guid: 3925cd04508c5cb47a3d66efb8c4cc1c, type: 3}
     m_GameObject: {fileID: 0}
     m_MinAnimationSpeed: 1
     m_MaxAnimationSpeed: 1

@@ -517,7 +517,10 @@ public class WorldGenerator : MonoBehaviour
     public void TakeDamage()
 	{
         health--;
-        hearts[health].SetActive(false);
+        if(health >= 0)
+		{
+            hearts[health].SetActive(false);
+        }
 	}
 
     public int GetHealth()
