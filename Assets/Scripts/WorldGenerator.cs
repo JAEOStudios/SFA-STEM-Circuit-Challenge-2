@@ -257,34 +257,38 @@ public class WorldGenerator : MonoBehaviour
 
     private void ReadFile()
 	{
-        //opening the file
-        StreamReader streamReader = file.OpenText();
-
-        //reading the x and y coords
-        sizeX = int.Parse(streamReader.ReadLine());
-        sizeY = int.Parse(streamReader.ReadLine());
-
-        SetCamera();
-
-        //assigning the level name object to have the text
-        GameObject.Find("LevelName").GetComponent<TextMeshProUGUI>().text = streamReader.ReadLine();
-
-        //reading in the file line by line into the array
-        for(int i = 0; i < sizeY; i++)
+        if(file.Exists)
 		{
-            string line = streamReader.ReadLine();
-            world.Add(line.ToCharArray());
-		}
-        //reading in the next level from the file 
-        if(!streamReader.EndOfStream)
-		{
-            levelManager.UpdateNextLevel(streamReader.ReadLine());
+            //opening the file
+            StreamReader streamReader = file.OpenText();
+
+            //reading the x and y coords
+            sizeX = int.Parse(streamReader.ReadLine());
+            sizeY = int.Parse(streamReader.ReadLine());
+
+            SetCamera();
+
+            //assigning the level name object to have the text
+            GameObject.Find("LevelName").GetComponent<TextMeshProUGUI>().text = streamReader.ReadLine();
+
+            //reading in the file line by line into the array
+            for (int i = 0; i < sizeY; i++)
+            {
+                string line = streamReader.ReadLine();
+                world.Add(line.ToCharArray());
+            }
+            //reading in the next level from the file 
+            if (!streamReader.EndOfStream)
+            {
+                levelManager.UpdateNextLevel(streamReader.ReadLine());
+            }
+            else
+            {
+                //if a level isn't provided, change to ls for level select indicator to be read in startNextLevel()
+                levelManager.UpdateNextLevel("ls");
+            }
         }
-		else
-		{
-            //if a level isn't provided, change to ls for level select indicator to be read in startNextLevel()
-            levelManager.UpdateNextLevel("ls");
-		}
+        
 
     }
 
