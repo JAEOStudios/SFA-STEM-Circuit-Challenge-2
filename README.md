@@ -2,7 +2,7 @@
  A simple puzzle game for designed for students based on completing circuits.
 
 ## The Basics
- SFA STEM Circuit Challenge 2 is a 2D puzzle game designed for students aged 8-12 about completing circuits. The students play as a robot who can move using the arrow keys (or WASD keys) to push computer chips that conduct electricity throughout a circuit-themed labyrinth. The chips are color-coded, and will only work if pushed to their correct spot. The robot can also use his laser eyes (the Space key) to blast destructable red bug blocks out of his way in his mission! The robot must avoid the mysterious purple hazards on his journey, but if he touches them more than 3 times, he will explode!
+ SFA STEM Circuit Challenge 2 is a 2D puzzle game designed for students aged 8-12 about completing circuits. The students play as a robot who can move using the arrow keys (or WASD keys) to push computer chips that conduct electricity throughout a circuit-themed labyrinth. The chips are color-coded, and will only work if pushed to their correct spot. The robot can also use his laser eyes (the Space key) to blast destructible red bug blocks out of his way in his mission! The robot must avoid the mysterious purple hazards on his journey, but if he touches them more than 3 times, he will explode!
 
  In the event that players get stuck and can no longer complete a level, the 'R' key may be used to instantly restart the level. If you want to reset the game to the title screen, the 'F2' key may be used to do so.
 
