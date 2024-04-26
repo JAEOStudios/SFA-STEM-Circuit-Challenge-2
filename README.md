@@ -31,9 +31,9 @@
  - 'X's designate a purple hazard that will damage the robot when they touch it
  - 'B's designate a battery that should ideally be placed within a wall, wires will need to be in the spot above and below the battery to carry connections to doors
  - 'W's designate a wire with a wall behind it
-  - Be careful not to put wires that run alongside each other too close, or the game won't know which wires go with which path, and will likely lead to unexpected results! Be sure to leave gaps between seperate wire paths.
+  - Be careful not to put wires that run alongside each other too close, or the game won't know which wires go with which path, and will likely lead to unexpected results! Be sure to leave gaps between separate wire paths.
  - 'w's designate a wire without a wall behind it so that the player can walk through it
- - 'D's desginate a door which must have two wires coming into it to carry a possible connection to open the door
+ - 'D's designate a door which must have two wires coming into it to carry a possible connection to open the door
  - '(', '\[', '{', and '<' all designate chips that the robot can push around to complete circuits made of wires
  - ')', '\]', '}', and '>' all designate spots that the chips must go into to complete circuits, these should have two wires touching them to carry a connection
  - 'E's designate a portal that lets the robot exit the level and go to the next one
