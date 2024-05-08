@@ -8,6 +8,8 @@
 
  Levels are divided into 2 difficulties, the 'introduction' and the 'challenge' levels. Challenge levels are, well, very challenging, and should only be attempted by students if they have beaten all four introduction levels. The level labeled 'custom' will be discussed later in the "Custom Levels" section of this document.
 
+ Complete builds of the game can be downloaded from or [itch.io](https://jaeostudios.itch.io/sscc2) or [GameJolt](https://gamejolt.com/games/SSCC2/895252).
+
 ## Use with the Makey Makey device
  SSCC2 is designed to be functional with the Makey Makey educational device. It can be used as a controller for the game by using the Directional Pad on the Makey Makey, as well as the Space button for firing the robot's laser and navigating menus. Further information about the Makey Makey, such as how to set the device up, can be found in the documentation that came with the device.
 
