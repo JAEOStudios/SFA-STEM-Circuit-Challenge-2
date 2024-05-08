@@ -12,7 +12,7 @@
  SSCC2 is designed to be functional with the Makey Makey educational device. It can be used as a controller for the game by using the Directional Pad on the Makey Makey, as well as the Space button for firing the robot's laser and navigating menus. Further information about the Makey Makey, such as how to set the device up, can be found in the documentation that came with the device.
 
 ## Custom Levels
- SSCC2 supports user modified levels, and fully custom levels! This gives older students a chance to practice their design and logic abilities by creating circuit puzzles of their very own to solve! A video version of this guide can also be found at <youtubelinkhere>.
+ SSCC2 supports user modified levels, and fully custom levels! This gives older students a chance to practice their design and logic abilities by creating circuit puzzles of their very own to solve! A video version of this guide can also be found at [this link](https://youtu.be/KnSneu8d9TQ).
 
  When downloading the game, open the folder that contains the game's executible file ('SFA STEM CC 2.exe'), and open the folder titled 'SFA STEM CC 2_Data'. When inside of this folder, open the folder titled 'Levels'. This will bring you to a list of all levels in the games, labeled by "level<packNumber>-<levelNumber>.txt". Any of these levels may be modified as desired by the user, but to modify the level pack shown in the game under the name 'Custom', you must begin with the file named "levelc-1.txt". Double click this file to open it in a text editor.
 
