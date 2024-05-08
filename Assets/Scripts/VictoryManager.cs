@@ -27,7 +27,7 @@ public class VictoryManager : MonoBehaviour
     void Update()
     {
         //checking if the user has pressed space
-        if (Input.GetKeyDown(KeyCode.Space))
+        if ((Input.anyKeyDown || Input.GetAxisRaw("Jump") > 0) && timer <= 0)
         {
             confirm.Play();
             timer = .5f;

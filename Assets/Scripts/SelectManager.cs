@@ -9,6 +9,13 @@ public class SelectManager : MonoBehaviour
     [SerializeField] Button[] buttons;
 
     [SerializeField] GameObject selector;
+
+    //input variables
+    private bool moveUp = true;
+    private bool moveDown = true;
+    private bool moveLeft = true;
+    private bool moveRight = true;
+    private bool shoot = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,13 +25,39 @@ public class SelectManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D))
+        //updating input booleans
+        if (Input.GetAxisRaw("Horizontal") < 0.1f)
+        {
+            moveRight = true;
+        }
+        if (Input.GetAxisRaw("Horizontal") > -0.1f)
+        {
+            moveLeft = true;
+        }
+        if (Input.GetAxisRaw("Vertical") < 0.1f)
+        {
+            moveUp = true;
+        }
+        if (Input.GetAxisRaw("Vertical") > -0.1f)
+        {
+            moveDown = true;
+        }
+        if (Input.GetAxisRaw("Jump") < 0.1f)
+        {
+            shoot = true;
+        }
+
+        if ((Input.GetAxisRaw("Horizontal") > 0.5f && moveRight) || (Input.GetAxisRaw("Vertical") < -0.5f && moveDown))
 		{
+            moveDown = false;
+            moveRight = false;
             selection++;
             this.GetComponent<AudioSource>().Play();
 		}
-        else if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.W))
+        else if((Input.GetAxisRaw("Horizontal") < -0.5f && moveLeft) || (Input.GetAxisRaw("Vertical") > 0.5f && moveUp))
 		{
+            moveUp = false;
+            moveLeft = false;
             selection--;
             this.GetComponent<AudioSource>().Play();
         }
@@ -40,8 +73,9 @@ public class SelectManager : MonoBehaviour
 
         selector.transform.position = new Vector2(buttons[selection].transform.position.x, buttons[selection].transform.position.y + 50);
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetAxisRaw("Jump") > 0 && shoot)
 		{
+            shoot = false;
             buttons[selection].onClick.Invoke();
 		}
         

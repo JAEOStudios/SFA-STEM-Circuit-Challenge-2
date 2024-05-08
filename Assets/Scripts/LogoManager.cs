@@ -12,7 +12,7 @@ public class LogoManager : MonoBehaviour
     {
         timer -= 1 * Time.deltaTime;
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetAxisRaw("Jump") > 0 && timer >= 0.5f)
 		{
             timer = 0.5f;
 		}

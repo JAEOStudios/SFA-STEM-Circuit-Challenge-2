@@ -35,6 +35,14 @@ public class CharacterMovement : MonoBehaviour
     private int health = 3;
 
     private WorldGenerator worldGenerator;
+
+    //input variables
+    private bool moveUp = true;
+    private bool moveDown = true;
+    private bool moveLeft = true;
+    private bool moveRight = true;
+    private bool shoot = true;
+
     // Start is called before the first frame update
 
     void Start()
@@ -51,11 +59,33 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
 	{
-        if(!hasPortaled && countDown <= 0)
+        //process inputs
+        if(Input.GetAxisRaw("Horizontal") < 0.1f)
+		{
+            moveRight = true;
+		}
+        if (Input.GetAxisRaw("Horizontal") > -0.1f)
+        {
+            moveLeft = true;
+        }
+        if (Input.GetAxisRaw("Vertical") < 0.1f)
+        {
+            moveUp = true;
+        }
+        if (Input.GetAxisRaw("Vertical") > -0.1f)
+        {
+            moveDown = true;
+        }
+        if (Input.GetAxisRaw("Jump") < 0.1f)
+        {
+            shoot = true;
+        }
+        if (!hasPortaled && countDown <= 0)
 		{
             //checking inputs and if the movements are valid
-            if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+            if (Input.GetAxisRaw("Vertical") < -0.5f && moveDown)
             {
+                moveDown = false;
                 if (ValidMove(Vector2.down))
                 {
                     MoveCharacter(xPos, yPos - 1);
@@ -64,8 +94,9 @@ public class CharacterMovement : MonoBehaviour
                 spriteRenderer.sprite = directionSprites[0];
                 direction = 1;
             }
-            else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+            else if (Input.GetAxisRaw("Horizontal") > 0.5f && moveRight)
             {
+                moveRight = false;
                 if (ValidMove(Vector2.right))
                 {
                     MoveCharacter(xPos + 1, yPos);
@@ -73,8 +104,9 @@ public class CharacterMovement : MonoBehaviour
                 spriteRenderer.sprite = directionSprites[1];
                 direction = 2;
             }
-            else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+            else if (Input.GetAxisRaw("Vertical") > 0.5f && moveUp)
             {
+                moveUp = false;
                 if (ValidMove(Vector2.up))
                 {
                     MoveCharacter(xPos, yPos + 1);
@@ -82,9 +114,9 @@ public class CharacterMovement : MonoBehaviour
                 spriteRenderer.sprite = directionSprites[2];
                 direction = 3;
             }
-
-            else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+            else if (Input.GetAxisRaw("Horizontal") < -0.5f && moveLeft)
             {
+                moveLeft = false;
                 if (ValidMove(Vector2.left))
                 {
                     MoveCharacter(xPos - 1, yPos);
@@ -93,9 +125,10 @@ public class CharacterMovement : MonoBehaviour
                 direction = 4;
             }
 
-            //creating a laser option in the right direction when space is hit
-            else if (Input.GetKeyDown(KeyCode.Space))
+            //creating a laser option in the right direction when jump binding is hit
+            else if (Input.GetAxisRaw("Jump") > 0 && shoot)
             {
+                shoot = false;
                 GameObject l = GameObject.Instantiate(laser, this.transform.position, Quaternion.identity);
                 l.GetComponent<LaserMove>().Initialize(direction);
             }
@@ -139,7 +172,7 @@ public class CharacterMovement : MonoBehaviour
         }
 
         //checking if the player is out of health or restarting
-        if ((health <= 0 || Input.GetKeyDown(KeyCode.R)) && countDown <= 0)
+        if ((health <= 0 || Input.GetButtonDown("Fire2")) && countDown <= 0)
         {
             //setting the countdown and health to 0 to trigger the restart
             countDown = 2f;

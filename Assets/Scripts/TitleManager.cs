@@ -18,7 +18,7 @@ public class TitleManager : MonoBehaviour
 	void Update()
     {
         //sends the user to the level select
-        if(Input.GetKeyDown(KeyCode.Space) && timer <= 0)
+        if((Input.anyKeyDown || Input.GetAxisRaw("Jump") > 0) && timer <= 0 )
 		{
             timer = 0.5f;
             destinationLevel = "LevelSelect";
