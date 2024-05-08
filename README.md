@@ -45,5 +45,5 @@ Finally, if this isn't the last level in the level pack, use the final line of t
 ## Disclaimers
 This game is released under Creative Commons (CC-BY-SA-4.0). This means that you are free to modify, change, and distribute this game however you please! However, if you do so, the project must be distributed under the same license, meaning that your changes must also be public for other people to change as they please! Keep the open-source train going and support developers!
 
-This game is done as a passion project in collaboration with my volunteering with Stephen F. Austin State University's STEM Reserach and Learning Center. It is used heavily by the center with the Makey Makey device, but I wanted to release it for all to use as wanted! If you feel the desire to support me further, please check out my game Frog Flip! on itch.io or the Google Play Store.
+This game is done as a passion project in collaboration with my volunteering with Stephen F. Austin State University's STEM Research and Learning Center. It is used heavily by the center with the Makey Makey device, but I wanted to release it for all to use as wanted! If you feel the desire to support me further, please check out my game Frog Flip! on itch.io or the Google Play Store.
  
